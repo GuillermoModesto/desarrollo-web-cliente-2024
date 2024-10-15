@@ -1,0 +1,1 @@
+/* ir añadiendo funciones agradecidas */
