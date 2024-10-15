@@ -62,10 +62,76 @@ function showMap(map){
     alert(visualMap);
 }
 
+function putElements(map, mineAmount){
+    let fils = map.length
+    let cols = map[0].length
+    let elements = [];
+    let elePos;
+    let posX = 0;
+    let posY = 0;
+    let hasTreasure = false;
+    do{
+        elePos = [];
+        posX = Math.floor(Math.random() * (fils + 1));
+        posY = Math.floor(Math.random() * (cols + 1));
+        elePos.push(posX, posY);
+        if(!elements.includes(elePos)) elements.push(elePos);
+    } while (elements.length < mineAmount);
+    
+    do{
+        elePos = [];
+        posX = Math.floor(Math.random() * (fils + 1));
+        posY = Math.floor(Math.random() * (cols + 1));
+        elePos.push(posX, posY);
+        if(!elements.includes(elePos)){
+            elements.push(elePos);
+            hasTreasure = true;
+        }
+    } while (!hasTreasure);
+    return elements;
+}
+
+function showElements(elements){
+    let visual = "";
+    elements.forEach(fil => {
+        fil.forEach(ele => {
+            visual += ele + " ";
+        });
+        visual += "\n";
+    });
+    alert(visual);
+}
+
+function askCoord(map){
+    let posX = 0;
+    let posY = 0;
+    let coord = [];
+    do{
+        posX = prompt("Posición de fila entre 1 y " + (map.length), "");
+        if(posX > map.length) alert ("Te pasaste");
+        else if(posX <= 0) alert ("Tu eres tonto");
+    } while (posX > map.length || posX <= 0);
+    posX--;
+
+    do{
+        posY = prompt("Posición de columna entre 1 y " + (map[0].length), "");
+        if(posY > map[0].length) alert ("Te pasaste");
+        else if(posY <= 0) alert ("Tu eres tonto");
+    } while (posY > map[0].length || posY <= 0);
+    posY--;
+    coord.push(posX, posY);
+    return coord;
+}
+
 function todo(){
     let n = 4;
     let m = 5;
     let mineCount = 3;
     let map = makeMap(n, m);
-    showMap(map);
+    let elements = putElements(map, mineCount);
+    showElements(elements);
+    let treasure = elements.pop();
+    let coord = askCoord(map);
+    
+    
 }
