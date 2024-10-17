@@ -27,11 +27,11 @@ function patras(){
 }
 
 function checkPos(){
-    if (pos == max - 2) {
+    if (pos == max - 1) {
         document.getElementById("avanzar").disabled = true;
         
     }
-    if (pos == 1) {
+    if (pos == 0) {
         document.getElementById("retroceder").disabled = true;
     }
     if (pos > 0 && pos < max - 1){
