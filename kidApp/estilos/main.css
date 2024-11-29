@@ -1,0 +1,36 @@
+body, div{
+    padding: 0;
+    margin: 0;
+}
+
+div{
+    background-color: aqua;
+    height: 100vh;
+    position: relative;
+}
+
+.figura__cuadrado{
+    position: absolute;
+    height: 5vh;
+    width: 5vh;
+}
+
+.figura__cuadrado--mini{
+    position: absolute;
+    height: 2vh;
+    width: 2vh;
+}
+
+.figura__circulo{
+    position: absolute;
+    border-radius: 50%;
+    height: 5vh;
+    width: 5vh;
+}
+
+.figura__circulo--mini{
+    position: absolute;
+    border-radius: 50%;
+    height: 2vh;
+    width: 2vh;
+}
