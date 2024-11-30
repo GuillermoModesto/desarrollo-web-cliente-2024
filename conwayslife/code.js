@@ -8,7 +8,6 @@ window.onload = function() {
     let rows;
     document.querySelector("button").onclick = function() {
         let tabla1 = document.createElement("table");
-        let tabla2 = document.createElement("table");
         rows = document.getElementById("rows").value;
         let speed = document.getElementById("speed").value;
         board = create_board(tabla1, validate(rows));
