@@ -5,53 +5,53 @@ let timer;
 
 window.onload = function() {
     let board;
-    let future;
     let rows;
     document.querySelector("button").onclick = function() {
+        let tabla1 = document.createElement("table");
+        let tabla2 = document.createElement("table");
         rows = document.getElementById("rows").value;
         let speed = document.getElementById("speed").value;
-        board = create_board(validate(rows));
+        board = create_board(tabla1, validate(rows));
+        document.getElementById("game-area").appendChild(tabla1);
         this.disabled = true;
-        give_life(rows);
-        /* -- MAIN -- */
+        give_life(board, rows);
+        /* ----- MAIN ----- */
         timer = setInterval(function() {
-            check_around(board, future, rows);
+            check_around(board, rows);
         }, speed);
     }
     document.getElementById("stahp").onclick = function() {
+        clearInterval(timer);
+    }
+    document.getElementById("re").onclick = function() {
         clearInterval(timer);
         resetBoard(board, rows);
         document.querySelector("button").disabled = false;
     }
 }
 
-function create_board(rows) {
-    let tabla = document.createElement("table");
-    let row = [];
+function create_board(tabla, rows) {
     let board = [];
-    //let chance = initial / (rows * 2);
-    document.getElementById("game-area").appendChild(tabla);
     for (let i = 0; i < rows; i++) {
         let tr = tabla.appendChild(document.createElement("tr"));
+        let row = [];
         for (let j = 0; j < rows; j++) {
             let td = document.createElement("td");
-            td.setAttribute("id", String(i) + String(j));
             td.style.backgroundColor = DEAD;
             row.push(td);
             tr.appendChild(td);
         }
         board.push(row);
-        row = [];
     }
     return board;
 }
 
-function give_life(rows) {
+function give_life(board, rows) {
     let initial = document.getElementById("initial").value;
     do {
         let row = random(0, rows - 1);
         let col = random(0, rows - 1);
-        let ele = document.getElementById(String(row) + String(col));
+        let ele = board[row][col];
         if (ele.style.backgroundColor == DEAD) {
             initial--;
             ele.style.backgroundColor = ALIVE;
@@ -59,12 +59,21 @@ function give_life(rows) {
     } while(initial != 0);
 }
 
-function check_around(board, future, rows) {
+function check_around(board, rows) {
+    let future = [];
+    for (let i = 0; i < rows; i++) {
+        let row = [];
+        for (let j = 0; j < rows; j++) {
+            row.push(board[i][j].style.backgroundColor);
+        }
+        future.push(row);
+    }
+
     let surroundings;
     let directions = [
         [-1, -1], [-1, 0], [-1, 1],
-        [0, -1],           [0, 1],
-        [1, -1],  [1, 0],  [1, 1]
+        [ 0, -1],          [ 0, 1],
+        [ 1, -1], [ 1, 0], [ 1, 1]
     ];
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < rows; j++) {
@@ -77,13 +86,17 @@ function check_around(board, future, rows) {
                     }
                 }
             }
-            let ele = board[i][j];
             if (surroundings < 2 || surroundings > 3) {
-                ele.style.backgroundColor = DEAD;
+                future[i][j] = DEAD;
             }
             else if (surroundings == 3) {
-                ele.style.backgroundColor = ALIVE;
+                future[i][j] = ALIVE;
             }
+        }
+    }
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < rows; j++) {
+            board[i][j].style.backgroundColor = future[i][j];
         }
     }
 }
@@ -100,6 +113,14 @@ function random(min, max) {
 
 function validate(rows) {
     return rows;
+}
+
+function update(before, after, rows) {
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < rows; j++) {
+            before[i][j].style.backgroundColor = after[i][j].style.backgroundColor;
+        }
+    }
 }
 
 function resetBoard(board, row) {
