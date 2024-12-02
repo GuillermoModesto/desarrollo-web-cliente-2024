@@ -114,14 +114,6 @@ function validate(rows) {
     return rows;
 }
 
-function update(before, after, rows) {
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < rows; j++) {
-            before[i][j].style.backgroundColor = after[i][j].style.backgroundColor;
-        }
-    }
-}
-
 function resetBoard(board, row) {
     for (let i = 0; i < row; i++) {
         for (let j = 0; j < row; j++) {
