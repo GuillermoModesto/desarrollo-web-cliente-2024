@@ -10,14 +10,15 @@ colores para elegir).
 
 window.onload = function() {
     let select = document.querySelector("select");
-    let radio = document.querySelector("input");
+    let radios = document.getElementsByTagName("input");
     let div = document.querySelector("div");
-    let i = 0;
-    let timer = setInterval(function() {
-        if (i % 2 == 0)
-            div.style.backgroundColor = select.value;
-        else
-            div.style.backgroundColor = radio.value;
-        i++;
-    },500);
+    select.addEventListener("change", function() {
+        div.style.backgroundColor = this.value;
+    });
+    for (let i = 0; i < radios.length; i++) {
+        radios[i].addEventListener("change", function() {
+            if (this.checked)
+                div.style.backgroundColor = this.value;
+        });
+    }
 }

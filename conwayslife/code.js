@@ -14,7 +14,7 @@ window.onload = function() {
         document.getElementById("game-area").appendChild(tabla1);
         this.disabled = true;
         give_life(board, rows);
-        /* ----- MAIN ----- */
+
         timer = setInterval(function() {
             check_around(board, rows);
         }, speed);
